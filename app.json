@@ -1,0 +1,20 @@
+{
+  "addons": [
+    "expeditedssl",
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+
+  ],
+  "env": {
+    "EXPEDITEDSSL_ID": {
+      "required": false
+    }
+  },
+  "formation": {
+  },
+  "name": "icic",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}

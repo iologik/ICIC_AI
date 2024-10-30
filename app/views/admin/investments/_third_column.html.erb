@@ -1,0 +1,27 @@
+
+<%# USD/CAD investment balance %>
+<%
+  usd_sum_amount = Variable.find_pair('usd_sum_amount').value
+  cad_sum_amount = Variable.find_pair('cad_sum_amount').value
+%>
+<% if usd_sum_amount != 0 %>
+  <div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2" style="float: left;margin-right: 20px;">
+    <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+    <div class="xe-label">
+      <strong class="num"><%= usd_sum_amount %> USD</strong>
+      <span style="text-align: left;">Investment Portfolio</span>
+    </div>
+  </div>
+<% end %>
+
+<% if cad_sum_amount != 0 %>
+  <div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2" style="float: left;margin-right: 20px;">
+    <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+    <div class="xe-label">
+      <strong class="num"><%= cad_sum_amount %> CAD</strong>
+      <span style="text-align: left;">Investment Portfolio</span>
+    </div>
+  </div>
+<% end %>
+
+<div style="clear:both;"></div>

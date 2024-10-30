@@ -1,0 +1,63 @@
+<div class="paginated_collection">
+  <div class="paginated_collection_contents">
+    <div class="index_content">
+      <div>
+        <a class="interest-reserve-notification-batch-send" href="#">Batch Send</a>
+        <input type="date" name="" class="right" id="interest-reserve-notification-end-date" value="<%= @end_date %>">
+      </div>
+      <div class="index_as_table">
+        <table border="0" cellspacing="0" cellpadding="0" id="index_table_user_payments" class="index_table index" paginator="true">
+          <thead>
+          <tr>
+            <th><input type='checkbox' class="interest-reserve-notification-batch-check" /></th>
+            <th>Sub Investor</th>
+            <th>Sub-Investment</th>
+            <th>Current Interest Reserve</th>
+            <th>Send</th>
+            <!--<th class="sortable sorted-asc due_date">-->
+            <!--<a href="/admin/user_payments?order=due_date_desc&amp;scope=current_year_cad&amp;user=47">Due Date</a>-->
+            <!--</th>-->
+          </tr>
+          </thead>
+          <tbody>
+
+          <% @sub_investments.each_with_index do |sub_investment, index| %>
+            <% if sub_investment.current_retained_subinvest_currency(@end_date) >= 0.01 %>
+              <tr class="<%= index % 2 == 0 ? 'even' : 'odd' %>" title="<%= sub_investment.current_retained_steps %>">
+                <td>
+                  <input type='checkbox' class="interest-reserve-notification-line-check" data-sub-investment-id="<%= sub_investment.id %>" />
+                </td>
+                <td>
+                  <a href="/admin/sub_investors/<%= sub_investment.admin_user.id %>"><%= sub_investment.admin_user.name %></a>
+                </td>
+                <td><%= link_to sub_investment.investment.name, admin_sub_investment_path(sub_investment.id) %></td>
+                <td><%= number_to_currency(sub_investment.current_retained_subinvest_currency(@end_date), precision: 2) %></td>
+                <td><%= link_to 'Send', '#', class: 'send-notification', data: {sub_investment: sub_investment.id} %></td>
+              </tr>
+            <% end %>
+          <% end %>
+
+
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="index_footer">
+  </div>
+</div>
+</div>
+
+<style>
+    .send-notification.sending {
+        color: green;
+        text-decoration: none;
+        cursor: default;
+        font-weight: bold;
+    }
+
+    .send-notification.sending.error {
+        color: #d62540;
+    }
+</style>

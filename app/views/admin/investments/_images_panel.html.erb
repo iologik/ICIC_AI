@@ -1,0 +1,500 @@
+<div class="container">
+  <div class="offering-photo-map-holder position-relative ratio-2-1 rounded-top module" style="background-color:#F7F8F9;border:none;">
+    <div id="offering-cover-photo" class="offering-cover-photo img-wrapper rounded-top ratio-2-1 loaded cursor-pointer has-slideshow" data-toggle="modal" data-target="#modal-image-gallery">
+      <img class="rounded-top" src="<%= invest.main_image %>"/>
+      <span class="vignette">
+        <span class="icon icon-gray icon-large icon-37 display-block block-align-center"></span>
+        <span class="h5 text-white font-weight-bold display-block text-align-center mt-10">View Slideshow</span>
+      </span>
+    </div>
+    <div style="display:none;" id="offering-cover-map" class="offering-cover-map rounded-top ratio-2-1"></div>
+    <div class="button-group has-module-section-padding mr-0">
+      <a class="active" data-toggle="offering-cover-photo" style="text-decoration: none;">
+        <%= invest.all_images.count %> Photos
+      </a>
+    </div>
+  </div>
+
+  <div id="modal-image-gallery" class="modal fade modal-has-image-gallery" style="display: none;">
+    <div class="modal-inner carousel slide" id="offering-image-gallery" data-interval="false">
+      <div class="carousel-inner">
+        <div class="item active">
+          <img data-target="#offering-image-gallery" data-slide="next" class="rounded" src="<%= invest.main_image %>"/>
+        </div>
+
+        <% invest.other_images.each do |image| %>
+            <div class="item">
+              <img data-target="#offering-image-gallery" data-slide="next" src="<%= image %>"/>
+            </div>
+        <% end %>
+      </div>
+
+      <ol class="carousel-indicators clearfix dot-nav-new">
+        <li data-target="#offering-image-gallery" data-slide-to="0" class="active"><a><span class="dot"></span></a></li>
+
+        <% invest.other_images.each_with_index do |image, index| %>
+            <li data-target="#offering-image-gallery" data-slide-to="<%= index + 1 %>"><a><span class="dot"></span></a>
+            </li>
+        <% end %>
+      </ol>
+    </div>
+
+    <a class="control prev" data-slide="prev" data-target="#offering-image-gallery"></a>
+    <a class="control next" data-slide="next" data-target="#offering-image-gallery"></a>
+    <a class="control close" data-dismiss="modal"></a>
+  </div>
+</div>
+
+<style>
+    #offering-cover-photo.has-slideshow .vignette {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(38, 51, 63, 0.8);
+        opacity: 0;
+        transition: 0.3s opacity ease;
+        padding-top: 20%;
+    }
+
+    #offering-cover-photo.has-slideshow:hover .vignette {
+        opacity: 1;
+    }
+
+    .icon.icon-large.icon-gray, .close .icon.icon-large, .comments .item .body .likes .like-button .icon.icon-large, #dashboard #dashboard-nav li a .icon.icon-large {
+        background-image: url(/ui-gray-7.svg);
+    }
+
+    .icon-large.icon-37 {
+        background-position: -12px -2232px;
+    }
+
+    .icon.icon-large {
+        width: 36px;
+        height: 36px;
+    }
+
+    .icon.icon-large {
+        background-size: 60px auto;
+    }
+
+    .block-align-center, .module-standalone {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .display-block {
+        display: block !important;
+    }
+
+    .icon {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        font-size: 18px;
+        background-repeat: no-repeat;
+    }
+
+    .mt-10 {
+        margin-top: 10px;
+    }
+
+    .text-align-center {
+        text-align: center;
+    }
+
+    .font-weight-bold {
+        font-weight: bold;
+    }
+
+    .h5 {
+        font-size: 18px;
+    }
+
+    /*-------------------------------------*/
+
+    .img-wrapper > img, .img-wrapper > .img {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: 0.5s all;
+    }
+
+    .img-wrapper.loaded img, .img-wrapper.loaded .img {
+        opacity: 1;
+    }
+
+    .position-relative {
+        position: relative !important;
+    }
+
+    #offering-cover-photo.has-slideshow {
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    .ratio-2-1 {
+        padding-bottom: 50%;
+    }
+
+    .text-white {
+        color: white;
+    }
+
+    .img-wrapper {
+        display: block;
+        position: relative;
+        background: #d5d9dc;
+    }
+
+    .hc-module-margin, .module, .comments, .has-module-spacing, .placeholder, .module-section.investor-list .item, .comments .investor-list.item .item, .module .investor-list.module-header .item, .comments .investor-list.module-header .item, .module-section.investor-list .item:last-child {
+        margin-bottom: 21px;
+    }
+
+    .offering-photo-map-holder .offering-cover-photo, .offering-photo-map-holder .offering-cover-map {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0
+    }
+
+    .offering-photo-map-holder .button-group {
+        position: absolute;
+        top: 0;
+        right: 0;
+        border: none
+    }
+
+    .offering-photo-map-holder .button-group .button {
+        color: #fff;
+        background: rgba(38, 51, 63, 0.4);
+        border-color: transparent;
+        box-shadow: none;
+        transition: 0.3s all
+    }
+
+    .offering-photo-map-holder .button-group .button.active {
+        background: rgba(38, 51, 63, 0.8)
+    }
+
+    .offering-photo-map-holder .button-group .button:hover {
+        background: #26333f
+    }
+
+    .mr-0 {
+        margin-right: 0px;
+    }
+
+    .hc-cn-section-padding, .developer-profile-cover-photo-empty .module-section, .module .module-section, .comments .module-section, .comments .item, .module .module-header, .comments .module-header, .module .offering-update-section, .comments .offering-update-section, .has-module-section-padding {
+        padding: 19px;
+    }
+
+    .button-group {
+        zoom: 1;
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 3.5px 0 0;
+    }
+
+        /*----------------------------*/
+
+    .fade {
+        opacity: 0;
+        -webkit-transition: 0.2s opacity;
+        -moz-transition: 0.2s opacity;
+        -o-transition: 0.2s opacity;
+        transition: 0.2s opacity;
+    }
+
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 9999;
+        background-color: #1c262f;
+    }
+
+    .fade.in {
+        opacity: 1;
+    }
+
+    .modal-backdrop.fade {
+        opacity: 0;
+    }
+
+    .modal-backdrop.in {
+        opacity: 0.8;
+    }
+
+    .modal {
+        display: none;
+        overflow: auto;
+        overflow-y: scroll;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 10000;
+        -webkit-overflow-scrolling: touch;
+        padding: 14px;
+        outline: 0;
+    }
+
+    .close {
+        position: absolute;
+        top: 50%;
+        right: 14px;
+        margin-top: -9px;
+        border: 0;
+        padding: 0;
+        background: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    @media screen and (min-width: 768px) {
+        .close {
+            right: 20px;
+        }
+    }
+
+    /* for body */
+    .modal-open {
+        overflow: hidden;
+        position: relative;
+    }
+
+        /*---------dots----------*/
+
+    .dot-nav-new {
+        margin: 0;
+        font-size: 0;
+        line-height: 0;
+    }
+
+    .dot-nav-new li .dot {
+        display: block;
+        margin: 0 auto;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        opacity: 0.5;
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+        transition: 0.3s all ease;
+    }
+
+    .dot-nav-new li.active .dot, .dot-nav-new li:hover .dot {
+        -webkit-transform: none;
+        transform: none;
+        opacity: 1;
+    }
+
+    .dot-nav-new li {
+        list-style-type: none;
+    }
+
+    ol {
+        list-style: decimal;
+    }
+
+    .dot-nav-new {
+        margin: 0;
+        font-size: 0;
+        line-height: 0;
+    }
+
+    .clearfix:after {
+        clear: both;
+        content: "";
+        display: table;
+    }
+
+    .clearfix:before {
+        content: "";
+        display: table;
+    }
+
+    .dot-nav-new li a {
+        display: table-cell;
+        position: relative;
+        width: 28px;
+        height: 28px;
+        vertical-align: middle;
+    }
+
+        /*---------------------------------*/
+
+    .flex-center, .modal-has-image-gallery.active, .modal-has-image-gallery .control {
+        display: block;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-align-items: center;
+        align-items: center
+    }
+
+    .modal-has-image-gallery {
+        overflow: hidden
+    }
+
+    @media screen and (min-width: 768px) {
+        .modal-has-image-gallery {
+            padding: 20px
+        }
+    }
+
+    @media screen and (min-width: 1121px) {
+        .modal-has-image-gallery {
+            padding: 40px
+        }
+    }
+
+    .modal-has-image-gallery img {
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+        max-height: 90vh;
+        max-width: 90vw;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+        border-radius: 3px;
+        cursor: pointer
+    }
+
+    .modal-has-image-gallery .modal-inner {
+        -webkit-align-self: flex-end;
+        align-self: flex-end;
+        margin: 0 auto
+    }
+
+    .modal-has-image-gallery .carousel .item {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        -webkit-align-items: center;
+        align-items: center;
+        transition: 0.5s all ease-in-out
+    }
+
+    .modal-has-image-gallery .carousel .item.active, .modal-has-image-gallery .carousel .item.next, .modal-has-image-gallery .carousel .item.prev {
+        display: block;
+        display: -webkit-flex;
+        display: flex
+    }
+
+    .modal-has-image-gallery .carousel .item.next.left, .modal-has-image-gallery .carousel .item.prev.right, .modal-has-image-gallery .carousel .item.active {
+        -webkit-transform: none;
+        transform: none
+    }
+
+    .modal-has-image-gallery .carousel .item.prev, .modal-has-image-gallery .carousel .item.active.left {
+        -webkit-transform: translate3d(-100%, 0, 0);
+        transform: translate3d(-100%, 0, 0)
+    }
+
+    .modal-has-image-gallery .carousel .item.next, .modal-has-image-gallery .carousel .item.active.right {
+        -webkit-transform: translate3d(100%, 0, 0);
+        transform: translate3d(100%, 0, 0)
+    }
+
+    .modal-has-image-gallery .control {
+        position: fixed;
+        width: 45px;
+        height: 45px;
+        background: rgba(28, 38, 47, 0.8) url(/carousel-controls.svg) no-repeat 0 0;
+        cursor: pointer;
+        transition: 0.25s ease all
+    }
+
+    .modal-has-image-gallery .control.prev, .modal-has-image-gallery .control.next {
+        top: 50%;
+        margin-top: -22px
+    }
+
+    .modal-has-image-gallery .control.prev {
+        left: 0;
+        background-position: 0 -88px;
+        border-radius: 0 3px 3px 0
+    }
+
+    .modal-has-image-gallery .control.next {
+        right: 0;
+        background-position: 0 -44px;
+        border-radius: 3px 0 0 3px
+    }
+
+    .modal-has-image-gallery .control.close {
+        top: 0;
+        right: 0;
+        margin-top: 0;
+        border-bottom-left-radius: 3px
+    }
+
+    .modal-has-image-gallery .control:hover {
+        background-color: #1C262F
+    }
+
+    @media screen and (min-width: 768px) {
+        .modal-has-image-gallery .control {
+            width: 60px;
+            height: 60px;
+            background-color: transparent
+        }
+        .modal-has-image-gallery .control.prev {
+            background-position: 0 -252px;
+            left: 20px
+        }
+        .modal-has-image-gallery .control.next {
+            background-position: 0 -192px;
+            right: 20px
+        }
+        .modal-has-image-gallery .control.close {
+            background-position: 0 -132px;
+            top: 20px;
+            right: 20px
+        }
+        .modal-has-image-gallery .control:hover {
+            background-color: #1C262F;
+            border-radius: 3px
+        }
+        .modal-has-image-gallery .control:active {
+            -webkit-transform: scale(0.8);
+            transform: scale(0.8)
+        }
+    }
+
+    @media screen and (min-width: 1121px) {
+        .modal-has-image-gallery .control.prev {
+            left: 40px
+        }
+        .modal-has-image-gallery .control.next {
+            right: 40px
+        }
+        .modal-has-image-gallery .control.close {
+            top: 40px;
+            right: 40px
+        }
+    }
+
+    .modal-has-image-gallery .carousel-indicators {
+        bottom: 14px
+    }
+
+    .modal-has-image-gallery .carousel-indicators li {
+        display: block;
+        float: left
+    }
+
+    .modal-has-image-gallery .carousel-indicators .dot {
+        background-color: #fff
+    }
+</style>

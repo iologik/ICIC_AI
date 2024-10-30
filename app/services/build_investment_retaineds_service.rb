@@ -1,0 +1,56 @@
+# frozen_string_literal: true
+
+require 'prawn'
+
+class BuildInvestmentRetainedsService < BaseService
+  MOVE_DOWN_POINT = 7
+
+  # rubocop:disable Metrics/AbcSize
+  def call(investment_retaineds)
+    tb_data = payment_data(investment_retaineds)
+    Prawn::Document.new(top_margin: 20) do
+      font_size 9
+
+      image Rails.public_path.join('icic.jpg').to_s, width: 540
+
+      move_down MOVE_DOWN_POINT
+
+      text 'Innovation Capital Investment Corp, Van Haren Investment Corp, Innovation Capital Investment USA, Inc',
+           align: :center, color: '000000', size: 10
+      move_down MOVE_DOWN_POINT * 0.3
+      text '3830 Bayridge Avenue , West Vancouver, B.C.  V7V3J2', align: :center, color: '000000', size: 10
+      move_down MOVE_DOWN_POINT * 0.3
+      text 'kvh@innovationcic.com +1 604 727 6328     rvh@innovationcic.com +1 778 999 3141', align: :center,
+                                                                                              color: '000000', size: 10
+      text 'je@innovationcic.com - +1 604 312 6653', align: :center, color: '000000', size: 10
+
+      move_down MOVE_DOWN_POINT * 3
+
+      table(tb_data, column_widths: [320, 110, 110], cell_style: { border_widths: [1, 1, 1, 1] }) # 55
+    end
+  end
+
+  def payment_data(investment_retaineds)
+    payment_result = [['Investment', 'Interest Reserve CAD', 'Interest Reserve USD']]
+    total_amount = 0
+    investment_retaineds.each do |invest|
+      total_amount += invest.retained
+    end
+
+    cad_retained = usd_retained = 0
+    investment_retaineds.each do |invest|
+      if invest.currency == 'CAD'
+        cad_retained += invest.retained
+        payment_result << [invest.name,
+                           number_to_currency(invest.retained), nil]
+      else
+        usd_retained += invest.retained
+        payment_result << [invest.name,
+                           nil, number_to_currency(invest.retained)]
+      end
+    end
+
+    payment_result << ['Total', number_to_currency(cad_retained), number_to_currency(usd_retained)]
+  end
+  # rubocop:enable Metrics/AbcSize
+end

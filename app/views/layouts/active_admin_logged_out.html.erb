@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ICIC</title>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= csrf_meta_tags %>
+
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+
+  <link rel="icon" type="image/png" href="public/interface/favicon.png"/>
+  <link rel="apple-touch-icon-precomposed" href="/apple-touch-icons/apple-touch-icon.png">
+</head>
+<body class="active_admin logged_out <%= controller.action_name %>">
+
+<div id="canvas-wrapper">
+
+  <%= render 'layouts/header' %>
+
+  <%= yield %>
+  <!--<!-end canvas&ndash;&gt;-->
+</div>
+<!--end canvas-wrapper-->
+
+</body>
+<footer>
+  <%= javascript_include_tag 'application' %>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+</footer>
+</html>

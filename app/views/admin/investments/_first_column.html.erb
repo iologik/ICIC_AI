@@ -1,0 +1,41 @@
+<%# earn for sub_investments with different currencies with their investments %>
+<%
+  usd_gain_on_subs = Variable.find_pair('usd_gain_on_subs').value
+  cad_on_icic      = Variable.find_pair('cad_on_icic').value
+  cad_gain_on_icic = Variable.find_pair('cad_gain_on_icic').value
+%>
+
+<% if usd_gain_on_subs != 0 %>
+    <div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2" style="float: left;margin-right: 20px;">
+      <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+      <div class="xe-label">
+        <strong class="num"><%= usd_gain_on_subs %> USD</strong>
+        <span style="text-align: left;">Exc. Gain on Subs</span>
+        <span class="exchange-rand-rate"><%= ExchangeRate.exchange_date_by(Time.zone.today, 'CAD') %>&nbsp;&nbsp;<%= ExchangeRate.exchange_rate_by(Time.zone.today, 'CAD') %></span>
+      </div>
+    </div>
+<% end %>
+
+<% if cad_on_icic != 0 %>
+    <div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2" style="float: left;margin-right: 20px;">
+      <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+      <div class="xe-label">
+        <strong class="num"><%= cad_on_icic %> CAD</strong>
+        <span style="text-align: left;">Exc. on ICIC</span>
+        <span class="exchange-rand-rate"><%= ExchangeRate.exchange_date_by(Time.zone.today, 'USD') %>&nbsp;&nbsp;<%= ExchangeRate.exchange_rate_by(Time.zone.today, 'USD') %></span>
+      </div>
+    </div>
+<% end %>
+
+<% if cad_gain_on_icic != 0 %>
+    <div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2" style="float: left;margin-right: 20px;">
+      <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+      <div class="xe-label">
+        <strong class="num"><%= cad_gain_on_icic %> CAD</strong>
+        <span style="text-align: left;">Exchange gain on ICIC</span>
+        <span class="exchange-rand-rate"><%= ExchangeRate.exchange_date_by(Time.zone.today, 'USD') %>&nbsp;&nbsp;<%= ExchangeRate.exchange_rate_by(Time.zone.today, 'USD') %></span>
+      </div>
+    </div>
+<% end %>
+
+<div style="clear:both;"></div>

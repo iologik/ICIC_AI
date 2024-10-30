@@ -1,0 +1,195 @@
+<div class="investment-balance-report">
+
+  <div class="content">
+    <div class="investment-content">
+      <table border="0" cellspacing="0" cellpadding="0" id="index_table_investment_balance_report" class="index_table index" paginator="true">
+        <thead>
+          <tr>
+            <th class="col col-id">Id</th>
+            <th class="col col-name">Name</th>
+            <th class="col col-name">Balance</th>
+            <th class="col col-name">Investment Source</th>
+            <th class="col col-name">Currency</th>
+            <th class="col col-name">Start Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @investments.each do |investment| %>
+            <tr class="odd" id="investment_<%= investment.id %>">
+              <td class="col col-id"><a class="resource_id_link" href="/admin/investments/<%= investment.id %>"><%= investment.id %></a></td>
+              <td class="col col-name"><%= investment.name %></td>
+              <td class="col col-name"><%= number_to_currency(investment.balance) %></td>
+              <td class="col col-name"><%= investment.investment_source&.name %></td>
+              <td class="col col-name"><%= investment.currency %></td>
+              <td class="col col-name"><%= investment.start_date %></td>
+            </tr>
+          <% end %>
+          <tr class="odd">
+            <td class="col col-id"></td>
+            <td class="col col-name"><b>Total Balance USD</b></td>
+            <td class="col col-name"><b><%= number_to_currency(@total_balance_usd) %></b></td>
+          </tr>
+          <tr class="odd">
+            <td class="col col-id"></td>
+            <td class="col col-name"><b>Total Balance CAD</b></td>
+            <td class="col col-name"><b><%= number_to_currency(@total_balance_cad) %></b></td>
+          </tr>
+          <tr class="odd">
+            <td class="col col-id"></td>
+            <td class="col col-name"><b>Total of all pages USD</b></td>
+            <td class="col col-name"><b><%= number_to_currency(@total_of_all_pages_usd) %></b></td>
+          </tr>
+          <tr class="odd">
+            <td class="col col-id"></td>
+            <td class="col col-name"><b>Total of all pages CAD</b></td>
+            <td class="col col-name"><b><%= number_to_currency(@total_of_all_pages_cad) %></b></td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="index_footer" class="<%= 'hidden' if @total_page < 1 %>">
+        <nav class="pagination">
+          <span class="first <%= 'hidden' if @current_page < 2 %>">
+            <a href="<%= generate_url(request.url, page: 1) %>">« First</a>
+          </span>
+          <span class="prev <%= 'hidden' if @current_page < 2 %>">
+            <a rel="prev" href="<%= generate_url(request.url, page: @current_page - 1) %>">‹ Prev</a>
+          </span>
+          <% (1..@total_page).each do |page_num| %>
+            <span class="page <%= 'current' if @current_page == page_num %> <%= 'hidden' unless page_num >= @show_from_id && page_num <= @show_to_id %>">
+              <% if @current_page == page_num %>
+                <%= page_num %>
+              <% else %>
+                <a href="<%= generate_url(request.url, page: page_num) %>"><%= page_num %></a>
+              <% end %>
+            </span>
+          <% end %>
+          <span class="next <%= 'hidden' if @current_page == @total_page || @total_page < 2 %>">
+            <a rel="next" href="<%= generate_url(request.url, page: @current_page + 1) %>">Next ›</a>
+          </span>
+          <span class="last <%= 'hidden' if @current_page == @total_page || @total_page < 2 %>">
+            <a href="<%= generate_url(request.url, page: @total_page) %>">Last »</a>
+          </span>
+        </nav>
+        <div class="pagination_information">
+          Displaying Investments <b><%= @page_from_id %>&nbsp;-&nbsp;<%= @page_to_id %></b> of <b><%= @total_num %></b> in total
+        </div>
+
+        <div class="download_links">
+          Download:&nbsp;
+          <% params = request.params %>
+          <% params.delete(:page) %>
+          <%= link_to 'PDF', params.merge(type: 'pdf'), target: '_blank', style: "display: inline;" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-content sidebar_section panel" id="filters_sidebar_section">
+      <h3>Filters</h3>
+      <div class="panel_contents">
+        <form class="filter_form" id="new_q" action="/admin/investment_balance_report" accept-charset="UTF-8" method="get">
+
+          <div class="date-range string input optional stringish filter_form_field filter_string select_and_search" id="q_name_input">
+            <label for="q_name" class="label">Date</label>
+            <input class="datepicker" maxlength="10" placeholder="" value="<%= params[:up_to_date] || Time.zone.today %>" type="text" name="up_to_date" id="up_to_date">
+          </div>
+
+          <div class="select input optional filter_form_field filter_select" id="q_investment_input">
+            <label for="q_investment_id" class="label">Investment</label>
+            <select name="investment_id_eq" id="q_investment_id">
+              <option value="">Any</option>
+              <% Investment.find_each do |investment| %>
+                <% if params[:investment_id_eq] == investment.id.to_s %>
+                  <option value="<%= investment.id %>" selected><%= investment.name %></option>
+                <% else %>
+                  <option value="<%= investment.id %>"><%= investment.name %></option>
+                <% end %>
+              <% end %>
+            </select>
+          </div>
+
+          <div class="select input optional filter_form_field filter_select" id="q_investment_kind_input">
+            <label for="q_investment_kind_id" class="label">Investment kind</label>
+            <select name="investment_kind_id_eq" id="q_investment_kind_id">
+              <option value="">Any</option>
+              <% InvestmentKind.order(name: :asc).find_each do |investment_kind| %>
+                <% if params[:investment_kind_id_eq] == investment_kind.id.to_s %>
+                  <option value="<%= investment_kind.id %>" selected><%= investment_kind.name %></option>
+                <% else %>
+                  <option value="<%= investment_kind.id %>"><%= investment_kind.name %></option>
+                <% end %>
+              <% end %>
+            </select>
+          </div>
+
+          <div class="check_boxes input optional filter_form_field filter_check_boxes" id="q_investment_source_input">
+            <fieldset class="choices">
+              <legend class="label"><label>Investment Source</label></legend>
+              <% InvestmentSource.order(name: :asc).find_each do |investment_source| %>
+                <label for="q_investment_source_id_<%= investment_source.id %>">
+                  <% if params[:investment_source_id_in].present? && params[:investment_source_id_in].include?(investment_source.id.to_s) %>
+                    <input type="checkbox" name="investment_source_id_in[]" id="q_investment_source_id_11" value="<%= investment_source.id %>" checked>
+                  <% else %>
+                    <input type="checkbox" name="investment_source_id_in[]" id="q_investment_source_id_11" value="<%= investment_source.id %>" >
+                  <% end %>
+                  <%= investment_source.name %>
+                </label>
+              <% end %>
+            </fieldset>
+          </div>
+
+          <div class="check_boxes input optional filter_form_field filter_check_boxes" id="q_investment_status_input">
+            <fieldset class="choices">
+              <legend class="label"><label>Investment status</label></legend>
+              <% InvestmentStatus.find_each do |investment_status| %>
+                <label for="q_investment_status_id_<%= investment_status.id %>">
+                  <% if (params[:investment_status_id_in].nil? && investment_status == InvestmentStatus.active_status) || (params[:investment_status_id_in].present? && params[:investment_status_id_in].include?(investment_status.id.to_s)) %>
+                    <input type="checkbox" name="investment_status_id_in[]" id="q_investment_status_id_3" value="<%= investment_status.id %>" checked>
+                  <% else %>
+                    <input type="checkbox" name="investment_status_id_in[]" id="q_investment_status_id_3" value="<%= investment_status.id %>">
+                  <% end %>
+                  <%= investment_status.name %>
+                </label>
+              <% end %>
+            </fieldset>
+          </div>
+
+          <div class="select input optional filter_form_field filter_select" id="q_balance_input">
+            <label for="q_balance" class="label">Investment Balance</label>
+            <select name="balance_eq" id="q_balance">
+              <% ['$0.00', 'Not $0.00', 'Any'].each do |balance| %>
+                <% if params[:balance_eq].nil? && balance == 'Not $0.00'%>
+                  <option value="<%= balance %>" selected><%= balance %></option>
+                <% elsif params[:balance_eq].present? && params[:balance_eq] == balance %>
+                  <option value="<%= balance %>" selected><%= balance %></option>
+                <% else %>
+                  <option value="<%= balance %>"><%= balance %></option>
+                <% end %>
+              <% end %>
+            </select>
+          </div>
+
+          <div class="select input optional filter_form_field filter_select" id="q_currency_input">
+            <label for="q_currency" class="label">Currency</label>
+            <select name="currency_eq" id="q_currency">
+              <option value="">Any</option>
+              <% ["CAD", "USD"].each do |currency| %>
+                <% if params[:currency_eq] == currency %>
+                  <option value="<%= currency %>" selected><%= currency %></option>
+                <% else %>
+                  <option value="<%= currency %>"><%= currency %></option>
+                <% end %>
+              <% end %>
+            </select>
+          </div>
+
+          <div class="buttons">
+            <input type="submit" name="commit" value="Filter" data-disable-with="Filter">
+            <a class="clear_filters_btn" href="#">Clear Filters</a>
+            <input type="hidden" name="order" id="hidden_active_admin_order" value="name_asc">
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>

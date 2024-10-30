@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Innovation Capital Investment Corporation</title>
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic|PT+Mono&amp;subset=latin,cyrillic">
+  <%= stylesheet_link_tag "application", :media => "all" %> 
+  <%= stylesheet_link_tag "utilities", :media => "all" %>
+  <%= stylesheet_link_tag "template", :media => "all" %>
+  <%#= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
+  <script src="https://code.jquery.com/jquery-migrate-3.1.0.js"></script>
+  <meta property="og:title" content="Home">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="<%= image_url('/assets/logo.png') %>">
+  <meta property="og:url" content="https://innovationcic.com/">
+  <meta property="og:description" content="Innovation Capital Investment Corp. (ICIC) - is a Vancouver, BC based investment firm with a 16-year track record of successful outcomes. ICIC investment portfolio focuses on opportunities for family and friends in real estate limited partnerships throughout the Pacific Northwest. René van Haren (CEO) - Karin van Haren (CFO)">
+  <meta name="robots" content="max-image-preview:large">
+  <meta name="description" content="Landing page for Innovation Capital Investment Corp. (ICIC) located in Vancouver, BC">
+</head>
+<body>
+  <header class="relative" id="top">
+    <div class='absolute w-full'>
+      <div class='w-full bg-white flex'>
+        <%= link_to root_url, { class: 'site-logo m-auto mt-50px' }, {} do %>
+          <%= image_tag '/assets/logo.png', alt: 'ICIC Logo' %>
+        <% end %>
+      </div>
+      <div class='w-full back-gradient h-200px relative flex'>
+        <div class='absolute top-30-px flex'>
+          <% if false %>
+          <div class='w-25pc'></div>
+          <div class='w-75pc text-center'>
+            <span>Innovation Capital Investment Corp. (ICIC) - is a Vancouver, BC based investment firm with a 16-year track record of successful outcomes. ICIC investment portfolio focuses on opportunities for family and friends in real estate limited partnerships throughout the Pacific Northwest.<br></span>
+            <span>René van Haren (CEO) - Karin van Haren (CFO)</span>
+          </div>
+          <div class='w-25pc'></div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="w-full">
+      <%= image_tag '/assets/home_back.jpg', alt: 'ICIC back', class: 'mobile-pt-150px' %>
+    </div>
+    <nav class="main-nav absolute top-0 right-0">
+      <ul id="menu-primary-menu" class="main-menu list-none flex justify-center mt-14px mr-14px">
+        <li class="menu-item menu-item-has-children menu-about ml-10px mr-10px"><%= link_to 'About', about_path %></li></li>
+        <li class="menu-item menu-contact ml-10px mr-10px"><%= link_to 'Contact', contact_path %></li></li>
+        <li class="menu-item menu-login ml-10px mr-10px"><%= link_to 'Login', '/admin/login' %></li>
+      </ul>
+    </nav>
+  </header>
+
+  <%= yield %>
+
+  <footer class="footer">
+    <div class="max-width-row footer-inner">
+      <div class="logo-footer">
+        <a href="/"><%= image_tag '/assets/logo.png', alt: 'ICIC Logo', class: 'w-200px' %></a>
+        <p class="address">
+          3830 Bayridge Avenue<br>
+          West Vancouver, BC  V7V 3J2
+        </p>
+        <p class="copyright">© Innovation Capital Investment Corp 2022.</p>
+        <div class="social flex">
+          <a class="show" id="mdl-linkedin" target="_blank" href="#"><img src="https://cedarcoast.com/wp-content/themes/cedar/dist/images/linkedin.png"></a>
+          <a class="show" id="mdl-instagram" target="_blank" href="#"><img src="https://cedarcoast.com/wp-content/themes/cedar/dist/images/instagram.png"></a>
+        </div>
+      </div>
+      <nav class="footer-nav">
+        <h4>Project Types</h4>
+        <ul id="menu-footer-projects" class="footer-menu">
+          <li class="menu-item menu-industrial">Industrial</li>
+          <li class="menu-item menu-residential">Residential</li>
+          <li class="menu-item menu-multi-family">Multi-Family</li>
+        </ul>
+      </nav>
+      <nav class="footer-nav">
+        <h4>General</h4>
+        <ul id="menu-footer-menu" class="footer-menu"><li class="about menu-item menu-about"><a href="#">About</a></li>
+          <li class="contact menu-item menu-contact"><a href="mailto:info@innovationcic.com">Contact</a></li>
+          <li class="legal menu-item menu-terms-of-use"><a href="#">Terms of Use</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

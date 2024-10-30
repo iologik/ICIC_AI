@@ -1,0 +1,109 @@
+<div class="panel">
+  <h3>Sub-Investor Details</h3>
+  <div class="panel_contents">
+    <div class="attributes_table admin_user" id="attributes_table_admin_user_44">
+      <table border="0" cellspacing="0" cellpadding="0">
+        <tbody><tr class="row">
+          <th>Id</th>
+          <td><%= @admin_user.id %></td>
+        </tr>
+        <tr class="row">
+          <th>Name</th>
+          <td><%= @admin_user.name %></td>
+        </tr>
+        <tr class="row">
+          <th>Company Name</th>
+          <td><%= @admin_user.company_name %></td>
+        </tr>
+        <tr class="row">
+          <th>Email</th>
+          <td><%= @admin_user.email %></td>
+        </tr>
+        <tr class="row">
+          <th>Rrsp</th>
+          <td>
+            <span><%= @admin_user.rrsp %></span>
+          </td>
+        </tr>
+        <tr class="row">
+          <th>Rif</th>
+          <td>
+            <span><%= @admin_user.rif %></span>
+          </td>
+        </tr>
+        <tr class="row">
+          <th>Lif</th>
+          <td>
+            <span><%= @admin_user.lif %></span>
+          </td>
+        </tr>
+        <tr class="row">
+          <th>Lira</th>
+          <td>
+            <span><%= @admin_user.lira %></span>
+          </td>
+        </tr>
+        <tr class="row">
+          <th>PIN</th>
+          <td>
+            <span><%= @admin_user.pin if current_admin_user.admin %></span>
+          </td>
+        </tr>
+        <tr class="row">
+          <th>Home Phone</th>
+          <td>
+            <span><%= @admin_user.home_phone %></span>
+          </td>
+        </tr>
+        <tr class="row">
+          <th>Work Phone</th>
+          <td>
+            <span><%= @admin_user.work_phone %></span>
+          </td>
+        </tr>
+        <tr class="row">
+          <th>Mobile Phone</th>
+          <td>
+            <span><%= @admin_user.mobile_phone %></span>
+          </td>
+        </tr>
+        <tr class="row">
+          <th>Address</th>
+          <td>
+            <span><%= @admin_user.address %></span>
+          </td>
+        </tr>
+        <tr class="row">
+          <th>City</th>
+          <td>
+            <span><%= @admin_user.city %></span>
+          </td>
+        </tr>
+        <tr class="row">
+          <th>Province</th>
+          <td>
+            <span><%= @admin_user.province %></span>
+          </td>
+        </tr>
+        <tr class="row">
+          <th>Country</th>
+          <td>
+            <span><%= @admin_user.country %></span>
+          </td>
+        </tr>
+        <tr class="row">
+          <th>Postal Code</th>
+          <td>
+            <span><%= @admin_user.postal_code %></span>
+          </td>
+        </tr>
+        <tr class="row">
+          <th>Status</th>
+          <td>
+            <span><%= @admin_user.status %></span>
+          </td>
+        </tr>
+        </tbody></table>
+    </div>
+  </div>
+</div>

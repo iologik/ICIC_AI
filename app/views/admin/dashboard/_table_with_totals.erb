@@ -1,0 +1,85 @@
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+
+
+<%
+   sql = %(
+   select currency as label,count(1) as value
+   from investments
+   group by currency
+   )
+
+   investment_currency_ratio = ActiveRecord::Base.connection.execute(sql).to_a.to_json
+%>
+
+<div id="investment_currency_ratio_content" class="hide"><%= investment_currency_ratio %></div>
+<div id="investment_currency_ratio" style="width: 50%;float: left;"></div>
+
+<%
+   sql = %(
+   select investment_sources.name as label,count(1) as value
+   from investments
+   left join investment_sources on investment_sources.id=investments.investment_source_id
+   group by investment_sources.name
+   )
+
+   investment_source_ratio = ActiveRecord::Base.connection.execute(sql).to_a.to_json
+%>
+
+<div id="investment_source_ratio_content" class="hide"><%= investment_source_ratio %></div>
+<div id="investment_source_ratio" style="width: 50%;float: left;"></div>
+
+<div style="clear:both;margin-bottom: 20px;"></div>
+
+<div class="columns">
+  <div class="column" style="width: 25%;text-align: center;" id="column_first">
+    <img src="<%= image_path('loading-blue.gif') %>" />
+  </div>
+
+  <div class="column" style="width: 25%;text-align: center;" id="column_second">
+    <img src="<%= image_path('loading-blue.gif') %>" />
+  </div>
+
+  <div class="column" style="width: 25%;text-align: center;" id="column_third">
+    <img src="<%= image_path('loading-blue.gif') %>" />
+  </div>
+
+  <div class="column" style="width: 25%;text-align: center;" id="column_fourth">
+    <img src="<%= image_path('loading-blue.gif') %>" />
+  </div>
+
+  <div style="clear:both;"></div>
+</div>
+
+<%# Tasks %>
+<% tasks = Task.due_to_next_month %>
+
+<% if tasks.count > 0 %>
+    <div class="panel">
+      <h3>Tasks</h3>
+
+      <div class="panel_contents">
+        <table border="0" cellspacing="0" cellpadding="0">
+          <thead>
+          <tr>
+            <th>Date</th>
+            <th>Sub Investment</th>
+            <th>Status</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% tasks.each do |task| %>
+              <tr>
+                <td><%= link_to task.date, admin_task_path(task) %></td>
+                <td><%= link_to task.sub_investment.name, admin_sub_investment_path(task.sub_investment) %></td>
+                <td><%= task.status.capitalize %></td>
+                <td><%= task.description %></td>
+              </tr>
+          <% end %>
+          </table>
+      </div>
+    </div>
+<% end %>

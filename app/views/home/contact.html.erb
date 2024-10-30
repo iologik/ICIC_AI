@@ -1,0 +1,28 @@
+<div class='w-full flex my-50px'>
+  <%= form_tag('/contact', method: 'post', class: 'w-400px m-auto') do %>
+    <div class='mb-20px text-center'>
+      <label><%= @message %></label>
+    </div>
+    <div class='w-100 text-center'>
+      <span class='text-center w-100'>Contact US</span><br><br>
+    </div>
+    <div>
+      <label>Full Name</label>
+      <input type='text' name='username' required>
+      <br>
+    </div>
+    <div class='mt-14px'>
+      <label>Email</label>
+      <input type='email' name='email' required>
+      <br>
+    </div>
+    <div class='mt-14px'>
+      <label>Message</label>
+      <textarea class='min-h-200px' name='message' required></textarea>
+    </div>
+    <%= recaptcha_v3(action: 'contact', site_key: ENV['RECAPTCHA_SITE_KEY_V3']) %>
+    <div class='mt-14px'>
+      <input type='submit' value='Contact' class='w-full' >
+    </div>
+  <% end %>
+</div>

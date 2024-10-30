@@ -1,0 +1,38 @@
+<h3>One of the Investors payments is missing the Paid Date, please correct the issue and try again.</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sub Investor Name</th>
+      <th>Investment Name</th>
+      <th>Payment Type</th>
+      <th>Amount</th>
+      <th>Currency</th>
+      <th>Due Date</th>
+      <th>Paid Date</th>
+      <th>Status</th>
+      <th>Check No</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @payments.each do |payment| %>
+      <tr>
+        <td><%= payment.sub_investor_name %></td>
+        <td><%= link_to payment.sub_investment.investment.name, admin_investment_path(payment.sub_investment.investment_id) %></td>
+        <td><%= payment.payment_kind %></td>
+        <td><%= number_to_currency(payment.amount, :precision => 2) %></td>
+        <td><%= payment.sub_investment.currency %></td>
+        <td><%= payment.due_date %></td>
+        <td><%= payment.paid_date %></td>
+        <td><%= payment.status %></td>
+        <td><%= payment.check_no %></td>
+        <td>
+          <%= link_to "View", admin_payment_path(payment) %>
+          <%= link_to "Edit", edit_admin_payment_path(payment) %>
+          <%= link_to "Delete", admin_payment_path(payment), data: {confirm: "Are you sure you want to delete this?", method: "delete"} %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

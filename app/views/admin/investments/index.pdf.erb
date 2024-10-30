@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <%= stylesheet_link_tag wicked_pdf_asset_base64("subinvestment_pdf") %>
+  </head>
+  <body>
+    <div class="header">
+      <%= image_tag wicked_pdf_asset_base64('icic.jpg') %>
+      <br>
+      <div>
+        <h3>This Report is generated on <%= Time.zone.today.strftime("%Y-%m-%d") %></h3>
+      </div>
+    </div>
+    <% total_amount_usd = total_funded_usd = total_cash_reserve_usd = total_balance_usd = 0 %>
+    <% total_amount_cad = total_funded_cad = total_cash_reserve_cad = total_balance_cad = 0 %>
+    <%  %>
+    <div class="content pdf-table">
+      <table>
+        <tr>
+          <th class="name">Name</th>
+          <th class="amount">Amount</th>
+          <th class="currency">Funded</th>
+          <th class="scheduled">Cash Reserve</th>
+          <th class="months">Balances</th>
+          <th class="status">Currency</th>
+          <th class="start date">Start Date</th>
+        </tr>
+        <% @unlimited_investments = @investments.unscope(:limit).unscope(:offset) %>
+        <% @unlimited_investments.each do |investment| %>
+          <tr>
+            <td><%= investment.name %></td>
+            <td><%= number_to_currency(investment.amount, :precision => 2) %></td>
+            <td><%= number_to_currency(investment.money_raised, :precision => 2) %></td>
+            <td><%= number_to_currency(investment.cash_reserve, :precision => 2) %></td>
+            <td><%= number_to_currency(investment.amount - investment.money_raised + investment.cash_reserve, :precision => 2) %></td>
+            <td><%= investment.currency %></td>
+            <td><%= investment.start_date %></td>
+          </tr>
+          <% if investment.currency == 'USD' %>
+            <% total_amount_usd += investment.amount %>
+            <% total_funded_usd += investment.money_raised %>
+            <% total_cash_reserve_usd += investment.cash_reserve %>
+            <% total_balance_usd += (investment.amount - investment.money_raised + investment.cash_reserve) %>
+          <% else %>
+            <% total_amount_cad += investment.amount %>
+            <% total_funded_cad += investment.money_raised %>
+            <% total_cash_reserve_cad += investment.cash_reserve %>
+            <% total_balance_cad += (investment.amount - investment.money_raised + investment.cash_reserve) %>
+          <% end %>
+        <% end %>
+        <tr>
+          <td>Total(CAD)</td>
+          <td><%= number_to_currency(total_amount_cad, :precision => 2) %></td>
+          <td><%= number_to_currency(total_funded_cad, :precision => 2) %></td>
+          <td><%= number_to_currency(total_cash_reserve_cad, :precision => 2) %></td>
+          <td><%= number_to_currency(total_balance_cad, :precision => 2) %></td>
+          <td>CAD</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Total(USD)</td>
+          <td><%= number_to_currency(total_amount_usd, :precision => 2) %></td>
+          <td><%= number_to_currency(total_funded_usd, :precision => 2) %></td>
+          <td><%= number_to_currency(total_cash_reserve_usd, :precision => 2) %></td>
+          <td><%= number_to_currency(total_balance_usd, :precision => 2) %></td>
+          <td>USD</td>
+          <td></td>
+        </tr>
+      </table>
+
+      <p>
+        <br><br><br>
+        Innovation Capital Investment Corp - Van Haren Investment Corp - Innovation Capital Investment USA, Inc<br>
+        3830 Bayridge Avenue , West Vancouver, B.C.  V7V3J2 <br>
+        kvh@innovationcic.com - je@innovationcic.com - rvh@innovationcic.com <br>
+        +1 604 727 6328 - +1 604 312 6653 - +1 778 999 3141<br><br><br>
+        Thank you, ICIC
+      </p>
+    </div>
+  </body>
+</html>

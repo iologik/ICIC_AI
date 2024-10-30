@@ -1,0 +1,83 @@
+<div id="canvas">
+
+  <header id="page-header">
+    <div class="slider">
+      <div>
+        <%= image_tag 'home1.jpg', :class => 'image' %>
+      </div>
+      <div>
+        <%= image_tag 'home2.jpg', :class => 'image' %>
+      </div>
+      <div>
+        <%= image_tag 'home3.jpg', :class => 'image' %>
+      </div>
+      <div>
+        <%= image_tag 'home4.jpg', :class => 'image' %>
+      </div>
+    </div>
+
+  </header>
+
+  <div id="page-content">
+    <div class="container">
+      <div class="container text-align-center mt-20">
+        <h1>Welcome Investors</h1>
+      </div>
+
+      <div class="module mb-15 module-standalone">
+        <%= form_for(resource, as: resource_name, url: admin_user_session_path) do |f| %>
+            <div class="module-section" style="border: none;">
+
+              <div class="field-group">
+                <%= render 'shared/messages' %>
+              </div>
+
+              <div class="field-group">
+                <%= f.label :email %><br />
+                <%= f.email_field :email, autofocus: true %>
+              </div>
+
+              <div class="field-group">
+                <%= f.label :password %><br />
+                <%= f.password_field :password, autocomplete: "off" %>
+              </div>
+
+              <% if devise_mapping.rememberable? -%>
+                  <div class="grid">
+                    <div class="col-6">
+                      <%= f.check_box :remember_me %>
+                      <%= f.label :remember_me %>
+                    </div>
+
+                    <div class="col-6 text-align-right">
+                      <div class="text-decoration-underline">
+                        <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+                            <%= link_to "Forgot your password?", new_password_path(resource_name) %>
+                        <% end -%>
+                      </div>
+                    </div>
+                  </div>
+              <% end -%>
+            </div>
+
+            <div class="module-section text-align-right">
+              <a href='https://www.expeditedssl.com/simple-ssl-scanner/scan?target_domain=www.innovationcic.com' target='_blank' style="float: left;max-width: 86px;">
+                <img src='https://www.expeditedssl.com/ssl-secure-badge.png'  alt='Expedited SSL Scanner'>
+              </a>
+              <button type="submit" class="button button-blue">Log in</button>
+            </div>
+
+            <!--<div class="actions">-->
+            <!---->
+            <!--</div>-->
+        <% end %>
+      </div>
+      <!--<div class="text-align-center small muted has-module-spacing">-->
+
+      <!--</div>-->
+    </div>
+  </div>
+
+  <%#= render 'layouts/footer' %>
+
+</div>

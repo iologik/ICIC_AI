@@ -1,0 +1,139 @@
+<form accept-charset="UTF-8" action="/admin/user_payments/batch_action" id="collection_selection" method="post">
+  <div class="table_tools investment-source-wrapper">
+    <ul class="scopes table_tools_segmented_control">
+      <% [@current_year, @current_year - 1, @current_year - 2, @current_year - 3].each do |year| %>
+        <li class="scope year <%= 'selected' if @year.to_i == year.to_i %>">
+          <a href="/admin/t5_report?year=<%= year %>&investment_source_id=<%= @investment_source_id %>" class="table_tools_button">
+            <%= year %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+
+    <label class='ml-50px'>
+      Enter Exchange Rate for USD to CAD <input type='text' id='t5-exchange-rate' class='ml-10px max-w-200px'>
+    </label>
+
+    <fieldset class="choices">
+      <% InvestmentSource.find_each do |investment_source| %>
+        <label for="investment_source">
+          <input
+            class="investment-source"
+            type="checkbox"
+            name="investment_source[]"
+            value="<%= investment_source.id %>"
+            <%= 'checked' if @investment_source_ids.include? investment_source.id %>
+          >
+          <%= investment_source.name %>
+        </label>
+      <% end %>
+    </fieldset>
+  </div>
+
+  <div class="sub-investor-investment-source-wrapper">
+    <fieldset class="choices">
+      <label for="payment_type">
+        <% if @payment_type.include?('Interest') %>
+          <input class="payment-type" type="checkbox" name="payment_type[]" value="Interest" checked>
+        <% else %>
+          <input class="payment-type" type="checkbox" name="payment_type[]" value="Interest">
+        <% end %>
+        Interest Payments
+      </label>
+      <label for="payment_type">
+        <% if @payment_type.include?('Accrued') %>
+          <input class="payment-type" type="checkbox" name="payment_type[]" value="Accrued" checked>
+        <% else %>
+          <input class="payment-type" type="checkbox" name="payment_type[]" value="Accrued">
+        <% end %>
+        Accrued Payments
+      </label>
+      <label for="payment_type">
+        <% if @payment_type.include?('Retained') %>
+          <input class="payment-type" type="checkbox" name="payment_type[]" value="Retained" checked>
+        <% else %>
+          <input class="payment-type" type="checkbox" name="payment_type[]" value="Retained">
+        <% end %>
+        Interest Reserve Payments
+      </label>
+      <label for="payment_type">
+        <% if @payment_type.include?('AMF') %>
+          <input class="payment-type" type="checkbox" name="payment_type[]" value="AMF" checked>
+        <% else %>
+          <input class="payment-type" type="checkbox" name="payment_type[]" value="AMF">
+        <% end %>
+        AMF Payments
+      </label>
+      <label for="payment_type">
+        <% if @payment_type.include?('MISC') %>
+          <input class="payment-type" type="checkbox" name="payment_type[]" value="MISC" checked>
+        <% else %>
+          <input class="payment-type" type="checkbox" name="payment_type[]" value="MISC">
+        <% end %>
+        Misc Payments
+      </label>
+    </fieldset>
+  </div>
+
+  <div class="paginated_collection">
+    <div class="paginated_collection_contents">
+      <div class="index_content">
+        <div class="index_as_table">
+          <table border="0" cellspacing="0" cellpadding="0" id="index_table_user_payments" class="index_table index" paginator="true">
+            <thead>
+            <tr>
+              <th>Investment Source</th>
+              <th>Sub Investor</th>
+              <th>Address</th>
+              <th>Postal Code</th>
+              <th>PIN</th>
+              <th>Total CAD</th>
+              <th>Total USD</th>
+              <!--<th class="sortable sorted-asc due_date">-->
+                <!--<a href="/admin/user_payments?order=due_date_desc&amp;scope=current_year_cad&amp;user=47">Due Date</a>-->
+              <!--</th>-->
+            </tr>
+            </thead>
+            <tbody>
+
+            <% total_cad = total_usd = 0 %>
+
+            <% @reports.each_with_index do |report, i| %>
+              <% investor = AdminUser.find(report['id']) %>
+              <tr class="<%= i % 2 == 0 ? 'odd' : 'even' %>">
+                <td><%= report['source_flag'] %></td>
+                <td><%= link_to report['name'], admin_sub_investor_path(report['id']) %></td>
+                <td><%= report['address'] %></td>
+                <td><%= investor.postal_code %></td>
+                <td><%= investor.pin if current_admin_user.admin %></td>
+                <td><%= number_to_currency report['cad_amount'], :precision => 2 %></td>
+                <td><%= number_to_currency report['usd_amount'], :precision => 2 %></td>
+                <%
+                   total_cad += report['cad_amount'].to_f
+                   total_usd += report['usd_amount'].to_f
+                %>
+              </tr>
+            <% end %>
+
+            <tr style="color:#000;">
+              <td></td>
+              <td style="text-align:right;color:rgb(50, 53, 55);">Total:</td>
+              <td class="total-td"><%= number_to_currency total_cad, :precision => 2 %></td>
+              <td class="total-td"><%= number_to_currency total_usd, :precision => 2 %></td>
+            </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+    </div>
+    <div id="index_footer">
+      <!--<div class="pagination_information">Displaying <b>all 2</b> User Payments</div>-->
+      <div class="download_links">
+        Download:&nbsp;
+        <a class="pdf" href="/admin/payments/t5report.pdf?year=<%= @year %>&investment_source_id=<%= @investment_source_id %>&<%= @payment_type_query %>" target="_blank" style="display: inline;">PDF</a>
+        <a class="csv" href="/admin/payments/t5report.csv?year=<%= @year %>&investment_source_id=<%= @investment_source_id %>&<%= @payment_type_query %>" target="_blank" style="display: inline;">CSV</a>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,92 @@
+<%
+  usd_accrued_sum_payable    = Variable.find_pair('usd_accrued_sum_payable_in_future').value
+  cad_accrued_sum_payable    = Variable.find_pair('cad_accrued_sum_payable_in_future').value
+  usd_retained_sum_payable   = Variable.find_pair('usd_retained_sum_payable_in_future').value
+  cad_retained_sum_payable   = Variable.find_pair('cad_retained_sum_payable_in_future').value
+  usd_accrued_sum_until_now  = Variable.find_pair('usd_accrued_sum_until_now').value
+  cad_accrued_sum_until_now  = Variable.find_pair('cad_accrued_sum_until_now').value
+  usd_retained_sum_until_now = Variable.find_pair('usd_retained_sum_until_now').value
+  cad_retained_sum_until_now = Variable.find_pair('cad_retained_sum_until_now').value
+%>
+
+<div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2" style="float: left;margin-right: 20px;">
+  <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+  <div class="xe-label">
+    <strong class="num blue"><%= usd_accrued_sum_payable %> USD</strong>
+    <span style="text-align: left;">Interest Accrued Payable Subs</span>
+    <span class="exchange-rand-rate last-year-date"><%= Time.zone.today.year %></span>
+  </div>
+</div>
+
+<div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2" style="float: left;margin-right: 20px;">
+  <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+  <div class="xe-label">
+    <strong class="num blue"><%= cad_accrued_sum_payable %> CAD</strong>
+    <span style="text-align: left;">Interest Accrued Payable Subs</span>
+    <span class="exchange-rand-rate last-year-date"><%= Time.zone.today.year %></span>
+  </div>
+</div>
+
+<div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2" style="float: left;margin-right: 20px;">
+  <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+  <div class="xe-label">
+    <strong class="num blue"><%= usd_retained_sum_payable %> USD</strong>
+    <span style="text-align: left;">Interest Reserve Payable Subs</span>
+    <span class="exchange-rand-rate last-year-date"><%= Time.zone.today.year %></span>
+  </div>
+</div>
+
+<div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2" style="float: left;margin-right: 20px;">
+  <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+  <div class="xe-label">
+    <strong class="num blue"><%= cad_retained_sum_payable %> CAD</strong>
+    <span style="text-align: left;">Interest Reserve Payable Subs</span>
+    <span class="exchange-rand-rate last-year-date"><%= Time.zone.today.year %></span>
+  </div>
+</div>
+
+<% if usd_accrued_sum_until_now != 0 %>
+  <div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2" style="float: left;margin-right: 20px;">
+    <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+    <div class="xe-label">
+      <strong class="num blue"><%= usd_accrued_sum_until_now %> USD</strong>
+      <span style="text-align: left;">Interest Accrued Until Now Subs</span>
+      <span class="exchange-rand-rate last-year-date"><%= (Time.zone.today - 1.year).at_end_of_year.strftime('%Y-%m-%d') %></span>
+    </div>
+  </div>
+<% end %>
+
+<% if cad_accrued_sum_until_now != 0 %>
+  <div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2" style="float: left;margin-right: 20px;">
+    <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+    <div class="xe-label">
+      <strong class="num blue"><%= cad_accrued_sum_until_now %> CAD</strong>
+      <span style="text-align: left;">Interest Accrued Until Now Subs</span>
+      <span class="exchange-rand-rate last-year-date"><%= (Time.zone.today - 1.year).at_end_of_year.strftime('%Y-%m-%d') %></span>
+    </div>
+  </div>
+<% end %>
+
+<% if usd_retained_sum_until_now != 0 %>
+  <div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2" style="float: left;margin-right: 20px;">
+    <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+    <div class="xe-label">
+      <strong class="num blue"><%= usd_retained_sum_until_now %> USD</strong>
+      <span style="text-align: left;">Interest Reserve Until Now Subs</span>
+      <span class="exchange-rand-rate last-year-date"><%= (Time.zone.today - 1.year).at_end_of_year.strftime('%Y-%m-%d') %></span>
+    </div>
+  </div>
+<% end %>
+
+<% if cad_retained_sum_until_now != 0 %>
+  <div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2" style="float: left;margin-right: 20px;">
+    <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+    <div class="xe-label">
+      <strong class="num blue"><%= cad_retained_sum_until_now %> CAD</strong>
+      <span style="text-align: left;">Interest Reserve Until Now Subs</span>
+      <span class="exchange-rand-rate last-year-date"><%= (Time.zone.today - 1.year).at_end_of_year.strftime('%Y-%m-%d') %></span>
+    </div>
+  </div>
+<% end %>
+
+<div style="clear:both;"></div>

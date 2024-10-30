@@ -1,0 +1,80 @@
+= active_admin_form_for [:admin, @sub_investment] do |f|
+  - f.inputs "Details" do
+    - f.input :remote_agreement_url, as: :hidden
+    - @sub_investment ||= controller.instance_variable_get(:@sub_investment)
+    - if @sub_investment&.transfer_from
+      - f.input :transfer_from, :label => "Transfer From", :input_html => { :disabled => true }
+      - f.input :transfer_from_id, :label => "Transfer From", :as => 'hidden'
+
+    - if @sub_investment&.transfer_from
+      - f.input :admin_user_id, :label => "Investor", :as => 'hidden'
+    - else
+      - f.input :admin_user, :label => "Investor", :include_blank => false, :as => :select, :collection => AdminUser.order_by_name
+
+    - if @sub_investment&.transfer_from
+      - investment_label = 'To Investment'
+    - else
+      - investment_label = 'Investment'
+
+    - investment_currencies = Investment.select('id,currency').inject({}) {|r,invest| r[invest.id.to_s] = invest.currency;r }.to_json
+    - f.input :investment, :label => investment_label, :include_blank => false, input_html: {"data-imor-investment-ids" => InvestmentSource.imor_investment_ids, "data-investment-currencies" => investment_currencies }
+
+    - f.input :investment_status
+
+    - f.input :account
+
+  - f.inputs "Investment terms" do
+    - f.input :creation_date, id: 'creation_date', label: 'Start date', type: 'text', required: true
+    - f.input :scheduled, :as => :radio, :collection => ["Monthly" , "Quarterly", "Annually"]
+    - if @sub_investment&.transfer_from
+      - amount_label = "Amount (up to #{@sub_investment.transfer_from.amount})"
+    - else
+      - amount_label = 'Amount'
+
+    - if @sub_investment&.transfer_from.nil?
+      - f.input :amount, :label => amount_label
+    - elsif @sub_investment.transfer_from
+      - f.input :amount, :label => amount_label, input_html: { max: @sub_investment.transfer_from.amount }
+
+    - f.input :currency , :as => :radio , :collection  => ["USD", "CAD"]
+    - f.input :exchange_rate, input_html: { data: { invest_currency: f.object.investment.currency, sub_invest_currency: f.object.currency, rate: Investment.latest_rate, cad_usd_rate: Investment.latest_rate('CAD')}}
+    - f.input :months , :collection => 1..48
+    - f.input :memo
+
+    /-# todo we need to delete a saved interest period
+    /= f.inputs :effect_date, :per_annum, :accrued_per_annum, :for => :interest_periods, :name => "interest_period"
+    - f.has_many :interest_periods do |h|
+      - h.inputs do
+        - h.input :effect_date, order: [:year, :month, :day], :use_two_digit_numbers => true, type: 'text'
+        - h.input :per_annum
+        - h.input :accrued_per_annum
+        - h.input :retained_per_annum
+        /-# link_to_remove_association "remove task", f
+
+    /-# todo we need to delete a saved interest period
+    /= f.inputs :effect_date, :per_annum, :accrued_per_annum, :for => :interest_periods, :name => "interest_period"
+        /-# link_to_remove_association "remove task", f
+
+  - panel_class = @sub_investment&.without_referrand? ? 'inputs hide' : 'inputs'
+  - f.inputs "AMF", id: 'referrand_form_panel', class: panel_class, style: "display: none;" do
+    - f.input :referrand_user_id ,:as => :select , :collection => AdminUser.order_by_name, :label => 'Investor'
+    - f.input :referrand_percent, :label => 'Percent'
+    - f.input :referrand_scheduled, :as => :radio, :collection => ["Monthly" , "Quarterly", "Annually"], :label => 'Scheduled'
+    - f.input :referrand_one_time_amount, :label => 'One time amount'
+    - f.input :referrand_one_time_date, :label => 'One time date'
+
+  - div class: 'hide initial-description-wrapper'
+
+  - f.actions
+
+- unless @sub_investment&.new_record?
+  /- f.inputs "Agreement File(.pdf)" do
+  = s3_uploader_form as: "sub_investment[agreement_url]", id: "s3-uploader", class: "pure-form pure-form-stacked"
+    | Agreement File(.pdf) &nbsp;
+    = file_field_tag :file
+
+script id="template-upload" type="text/x-tmpl"
+  | <div id="file-{%=o.unique_id%}" class="upload">
+  |   {%=o.name%}
+  |   <div class="progress"><div class="bar" style="width: 0%"></div></div>
+  | </div>

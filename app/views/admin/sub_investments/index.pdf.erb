@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <%= stylesheet_link_tag wicked_pdf_asset_base64("subinvestment_pdf") %>
+  </head>
+  <body>
+    <div class="header">
+      <%= image_tag wicked_pdf_asset_base64('icic.jpg') %>
+      <div>
+        <h3>This Report is generated on <%= Time.zone.today.strftime("%Y-%m-%d") %></h3>
+      </div>
+    </div>
+    <div class="content pdf-table">
+      <table>
+        <tr>
+          <th class="name">Investor Investment</th>
+          <th class="amount">Invested Amount</th>
+          <th class="currency">Currency</th>
+          <th class="scheduled">Payment Scheduled</th>
+          <th class="months">Investment Length</th>
+          <th class="interest">Per Annum</th>
+          <th class="start date">Start Date</th>
+        </tr>
+        <% @unlimited_subinvestments = @sub_investments.unscope(:limit).unscope(:offset) %>
+        <% @unlimited_subinvestments.each do |sub_investment| %>
+          <tr>
+            <td><%= sub_investment.name %></td>
+            <td><%= number_to_currency(sub_investment.amount) %></td>
+            <td><%= sub_investment.currency %></td>
+            <td><%= sub_investment.scheduled %></td>
+            <td><%= sub_investment.months %></td>
+            <td><%= number_to_percentage sub_investment.interest, :precision => 2 %></td>
+            <td><%= sub_investment.start_date %></td>
+          </tr>
+        <% end %>
+      </table>
+
+      <p>
+        <br><br><br>
+        Innovation Capital Investment Corp - Van Haren Investment Corp - Innovation Capital Investment USA, Inc<br>
+        3830 Bayridge Avenue , West Vancouver, B.C.  V7V3J2 <br>
+        kvh@innovationcic.com - je@innovationcic.com - rvh@innovationcic.com<br>
+        +1 604 727 6328 - +1 604 312 6653 - +1 778 999 3141<br><br><br>
+        Thank you, ICIC
+      </p>
+    </div>
+  </body>
+</html>

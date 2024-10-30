@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+<p>The agreement file has been generated for <%= @sub_investment.admin_user.name %>% in regards to the project <%= @sub_investment.name %></p>
+<p>
+  Please click <%= link_to 'here', @sub_investment.remote_agreement.service_url if @sub_investment.remote_agreement.attached? %> to download the agreement file.
+</p>
+<p>
+Thanks,<br>
+Innovation Capital Investment Corp
+</p>
+<p>
+Updates@innovationcic.com
+</p>
+</body>
+</html>

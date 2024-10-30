@@ -1,0 +1,37 @@
+<table width="100%">
+  <tbody>
+  <tr>
+    <td>
+      <table align="center" width="550px">
+        <tbody>
+        <tr>
+          <td>
+            <div style="border-radius:11px 11px 10px 10px;border:1px solid #dddddd;border-color:rgba(0,0,0,0.13);background-color:#fff">
+              <div style="border-radius:10px 10px 0 0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:24px;background-color:#00aeec;padding:17px 20px 13px;color:#fff;font-weight:bold">
+                <span style="font-size:18px;font:Helvetica Neue;color:#ffffff;display:inline-block;line-height:25pt;margin-right:1em">INNOVATION CAPITAL INVESTMENT CORP.&nbsp;</span>
+              </div>
+
+              <div style="padding:25px">
+                <div style="font-family:'Helvetica Heue',Arial,sans-serif;font-size:14px;line-height:18px">
+
+                  <p>Hello <%= @admin_user.name %>!</p>
+
+                  <p>We have new transferred your <%= @payment_type %> of $<%= @transfer_amount %><%= @transfer_currency %> into subinvestment <%= @new_sub_investment.name %></p>
+
+                  <p>If you have any questions in regards to this, please let us know.</p>
+
+                  <p>Best,</p>
+                  <p>Innovation Capital Investment Corp.</p>
+                </div>
+              </div>
+
+              <div style="font-family:'Helvetica Heue',Arial,sans-serif;padding:15px 25px;color:#6c6c67;border-top:2px solid #dddddd;line-height:18px">&nbsp;</div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+  </tbody>
+</table>

@@ -1,0 +1,9 @@
+//= link application.css
+//= link utilities.css
+//= link template.css
+//= link home1.jpg
+//= link home2.jpg
+//= link home3.jpg
+//= link home4.jpg
+//= link loading-blue.gif
+//= link application.js

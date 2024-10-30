@@ -1,0 +1,47 @@
+<%
+  usd_sum_this_year       = Variable.find_pair('usd_sum_this_year').value
+  cad_sum_this_year       = Variable.find_pair('cad_sum_this_year').value
+  usd_sum_until_this_year = Variable.find_pair('usd_sum_until_this_year').value
+  cad_sum_until_this_year = Variable.find_pair('cad_sum_until_this_year').value
+%>
+<%# investment usd profit %>
+<a href="/admin/investment_profits" class="xe-widget xe-counter" style="float: left;margin-right: 20px;text-decoration: none;">
+  <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+  <div class="xe-label">
+    <strong class="num"><%= usd_sum_this_year %> USD</strong>
+    <span style="text-align: left;">Investment Net Profit</span>
+    <span class="exchange-rand-rate last-year-date"><%= Time.zone.today.strftime('%Y') %></span>
+  </div>
+</a>
+
+<%# investment cad profit %>
+<a href="/admin/investment_profits" class="xe-widget xe-counter" style="float: left;margin-right: 20px;text-decoration: none;">
+  <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+  <div class="xe-label">
+    <strong class="num"><%= cad_sum_this_year %> CAD</strong>
+    <span style="text-align: left;">Investment Net Profit</span>
+    <span class="exchange-rand-rate last-year-date"><%= Time.zone.today.strftime('%Y') %></span>
+  </div>
+</a>
+
+<%# investment usd profit %>
+<a href="/admin/investment_profits" class="xe-widget xe-counter" style="float: left;margin-right: 20px;text-decoration: none;">
+  <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+  <div class="xe-label">
+    <strong class="num"><%= usd_sum_until_this_year %> USD</strong>
+    <span style="text-align: left;">Investment Net Profit</span>
+    <span class="exchange-rand-rate last-year-date"><%= (Time.zone.today - 1.year).at_end_of_year.strftime('%Y-%m-%d') %></span>
+  </div>
+</a>
+
+<%# investment cad profit %>
+<a href="/admin/investment_profits" class="xe-widget xe-counter" style="float: left;margin-right: 20px;text-decoration: none;">
+  <div class="xe-icon"><i class="linecons-cloud" data-icon="&#xe001;"></i></div>
+  <div class="xe-label">
+    <strong class="num"><%= cad_sum_until_this_year %> CAD</strong>
+    <span style="text-align: left;">Investment Net Profit</span>
+    <span class="exchange-rand-rate last-year-date"><%= (Time.zone.today - 1.year).at_end_of_year.strftime('%Y-%m-%d') %></span>
+  </div>
+</a>
+
+<div style="clear:both;"></div>

@@ -1,0 +1,24 @@
+= active_admin_form_for [:admin, @loan] do |f|
+  - f.inputs "Details" do
+    - f.input :name
+    - f.input :borrower, :include_blank => false, :as => :select, :collection => Borrower.order_by_name
+
+  - f.inputs "Investment terms" do
+    - f.input :scheduled, :as => :radio, :collection => ["Monthly" , "Quarterly", "Annually"]
+    - amount_label = 'Amount'
+
+    - unless @loan
+      - f.input :amount, :label => amount_label
+    - else
+      - f.input :amount, :label => amount_label, input_html: { disabled: true, class: 'label-input' }
+    - f.input :currency , :as => :radio , :collection  => ["USD", "CAD"]
+    - f.input :months , :collection => 1..48
+
+    /-# todo we need to delete a saved interest period
+    - f.has_many :loan_interest_periods do |h|
+      - h.inputs do
+        - h.input :effect_date, order: [:year, :month, :day], :use_two_digit_numbers => true
+        - h.input :per_annum
+        /-# link_to_remove_association "remove task", f
+
+  - f.actions

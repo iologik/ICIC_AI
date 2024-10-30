@@ -1,0 +1,15 @@
+default: &default
+  endpoint: "https://acme-v01.api.letsencrypt.org/"
+  email: "outofclouds@gmail.com"
+  domain: "www.innovationcic.com"
+  private_key: "key/keyfile.pem"                            # in Rails.root
+  output_cert_dir: "public"                           # in Rails.root
+
+production:
+  <<: *default
+
+development:
+  <<: *default
+
+test:
+  <<: *default

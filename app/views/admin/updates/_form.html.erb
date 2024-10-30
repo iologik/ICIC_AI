@@ -1,0 +1,15 @@
+<%=
+  active_admin_form_for [:admin, resource] do |f|
+    f.inputs do
+      f.input :investment
+      f.input :title
+      f.input :body, input_html: { class: 'tinymce_editor' }
+      f.input :email_sub_investor
+    end
+    f.actions
+  end
+%>
+
+<%= s3_uploader_form id: "s3-image-uploader", class: "pure-form pure-form-stacked hide" do %>
+    <%= file_field_tag :file, multiple: true %>
+<% end %>

@@ -1,0 +1,8 @@
+*.DS_Store
+tmp/*
+log/*
+log/
+log/development.log
+.env
+public/assets
+.byebug_history

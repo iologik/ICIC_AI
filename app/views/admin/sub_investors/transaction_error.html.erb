@@ -1,0 +1,16 @@
+<h3>One of the items is missing a paid date, please add the correct paid date and try again.</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Transactions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @transactions.each do |trans| %>
+      <tr>
+        <td><%= link_to trans.name, "/admin/withdraws/#{trans.id}" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

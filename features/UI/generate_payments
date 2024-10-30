@@ -1,0 +1,28 @@
+
+Feature:  Generate Payment process
+  User can only generate payments once, while admin user can do it again..
+
+Scenario: Customer Generate payments only once
+    Given I am User "regular@example.com" 
+    And   I am a regular user
+    When  I login with "regular@example.com" , "password"
+    And   I visit my first subinvestment show page
+    And   I should see the "Generate Payment" button
+    When  I click the "Generate Payment" button
+    Then  I should not see the "Generate Payment" button
+
+
+Scenario: Admin Generate payments many times
+    Given I am User "admin@example.com" 
+    And   I am an admin user
+    When  I login with "admin@example.com" , "password"
+    And   I visit my first subinvestment show page
+    And   I should see the "Generate Payment" button
+    When  I click the "Generate Payment" button
+    Then  I should see the "Generate Payment" button
+
+
+
+
+Scenario: Customer logged in to dashboard
+
